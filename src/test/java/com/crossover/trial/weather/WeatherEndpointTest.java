@@ -1,6 +1,8 @@
 package com.crossover.trial.weather;
 
+import com.crossover.trial.weather.model.AtmosphericInformation;
 import com.crossover.trial.weather.model.DataPoint;
+import com.crossover.trial.weather.model.DataPointType;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -40,7 +42,7 @@ public class WeatherEndpointTest {
     @Test
     public void testGet() throws Exception {
         List<AtmosphericInformation> ais = (List<AtmosphericInformation>) _query.weather("BOS", "0").getEntity();
-        assertEquals(ais.get(0).getWind(), _dp);
+        assertEquals(ais.get(0).get(DataPointType.WIND), _dp);
     }
 
     @Test
@@ -73,8 +75,8 @@ public class WeatherEndpointTest {
         _update.updateWeather("BOS", "cloudcover", _gson.toJson(cloudCoverDp));
 
         List<AtmosphericInformation> ais = (List<AtmosphericInformation>) _query.weather("BOS", "0").getEntity();
-        assertEquals(ais.get(0).getWind(), windDp);
-        assertEquals(ais.get(0).getCloudCover(), cloudCoverDp);
+        assertEquals(ais.get(0).get(DataPointType.WIND), windDp);
+        assertEquals(ais.get(0).get(DataPointType.CLOUDCOVER), cloudCoverDp);
     }
 
 }

@@ -1,6 +1,8 @@
 package com.crossover.trial.weather;
 
 import com.crossover.trial.weather.model.Airport;
+import com.crossover.trial.weather.model.AtmosphericInformation;
+import com.crossover.trial.weather.model.DataPointType;
 import com.google.gson.Gson;
 
 import javax.ws.rs.Path;
@@ -66,8 +68,9 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
         int datasize = 0;
         for (AtmosphericInformation ai : atmosphericInformation) {
             // we only count recent readings
-            if (ai.getCloudCover() != null || ai.getHumidity() != null || ai.getPressure() != null
-                    || ai.getPrecipitation() != null || ai.getTemperature() != null || ai.getWind() != null) {
+            if (ai.get(DataPointType.CLOUDCOVER) != null || ai.get(DataPointType.HUMIDTY) != null
+                    || ai.get(DataPointType.PRECIPITATION) != null || ai.get(DataPointType.PRESSURE) != null
+                    || ai.get(DataPointType.TEMPERATURE) != null || ai.get(DataPointType.WIND) != null) {
                 // updated in the last day
                 if (ai.getLastUpdateTime() > System.currentTimeMillis() - 86400000) {
                     datasize++;
@@ -122,8 +125,9 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
             for (int i = 0; i < airportData.size(); i++) {
                 if (calculateDistance(ad, airportData.get(i)) <= radius) {
                     AtmosphericInformation ai = atmosphericInformation.get(i);
-                    if (ai.getCloudCover() != null || ai.getHumidity() != null || ai.getPrecipitation() != null
-                            || ai.getPressure() != null || ai.getTemperature() != null || ai.getWind() != null) {
+                    if (ai.get(DataPointType.CLOUDCOVER) != null || ai.get(DataPointType.HUMIDTY) != null
+                            || ai.get(DataPointType.PRECIPITATION) != null || ai.get(DataPointType.PRESSURE) != null
+                            || ai.get(DataPointType.TEMPERATURE) != null || ai.get(DataPointType.WIND) != null) {
                         retval.add(ai);
                     }
                 }

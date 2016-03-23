@@ -7,6 +7,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.crossover.trial.weather.model.AtmosphericInformation;
+
 /**
  * The query only API for the Weather Server App. This API is made available to
  * the public internet.

@@ -6,5 +6,16 @@ package com.crossover.trial.weather.model;
  * @author code test administrator
  */
 public enum DataPointType {
-    WIND, TEMPERATURE, HUMIDTY, PRESSURE, CLOUDCOVER, PRECIPITATION
+    WIND,
+    /** temperature */
+    TEMPERATURE,
+    /** temperature in degrees celsius */
+    HUMIDTY,
+    /** humidity in percent */
+    PRESSURE,
+    /** pressure in mmHg */
+    CLOUDCOVER,
+    /** cloud cover percent from 0 - 100 (integer) */
+    PRECIPITATION /** precipitation in cm */
+
 }

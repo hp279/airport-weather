@@ -2,6 +2,7 @@ package com.crossover.trial.weather;
 
 import com.crossover.trial.weather.exception.WeatherException;
 import com.crossover.trial.weather.model.Airport;
+import com.crossover.trial.weather.model.AtmosphericInformation;
 import com.crossover.trial.weather.model.DataPoint;
 import com.crossover.trial.weather.model.DataPointType;
 import com.google.gson.Gson;
@@ -117,48 +118,42 @@ public class RestWeatherCollectorEndpoint implements WeatherCollectorEndpoint {
 
         if (pointType.equalsIgnoreCase(DataPointType.WIND.name())) {
             if (dp.getMean() >= 0) {
-                ai.setWind(dp);
-                ai.setLastUpdateTime(System.currentTimeMillis());
+                ai.update(DataPointType.WIND, dp);
                 return;
             }
         }
 
         if (pointType.equalsIgnoreCase(DataPointType.TEMPERATURE.name())) {
             if (dp.getMean() >= -50 && dp.getMean() < 100) {
-                ai.setTemperature(dp);
-                ai.setLastUpdateTime(System.currentTimeMillis());
+                ai.update(DataPointType.TEMPERATURE, dp);
                 return;
             }
         }
 
         if (pointType.equalsIgnoreCase(DataPointType.HUMIDTY.name())) {
             if (dp.getMean() >= 0 && dp.getMean() < 100) {
-                ai.setHumidity(dp);
-                ai.setLastUpdateTime(System.currentTimeMillis());
+                ai.update(DataPointType.HUMIDTY, dp);
                 return;
             }
         }
 
         if (pointType.equalsIgnoreCase(DataPointType.PRESSURE.name())) {
             if (dp.getMean() >= 650 && dp.getMean() < 800) {
-                ai.setPressure(dp);
-                ai.setLastUpdateTime(System.currentTimeMillis());
+                ai.update(DataPointType.PRESSURE, dp);
                 return;
             }
         }
 
         if (pointType.equalsIgnoreCase(DataPointType.CLOUDCOVER.name())) {
             if (dp.getMean() >= 0 && dp.getMean() < 100) {
-                ai.setCloudCover(dp);
-                ai.setLastUpdateTime(System.currentTimeMillis());
+                ai.update(DataPointType.CLOUDCOVER, dp);
                 return;
             }
         }
 
         if (pointType.equalsIgnoreCase(DataPointType.PRECIPITATION.name())) {
             if (dp.getMean() >= 0 && dp.getMean() < 100) {
-                ai.setPrecipitation(dp);
-                ai.setLastUpdateTime(System.currentTimeMillis());
+                ai.update(DataPointType.PRECIPITATION, dp);
                 return;
             }
         }
