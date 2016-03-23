@@ -1,9 +1,15 @@
 package com.crossover.trial.weather.utils;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
-import java.io.*;
 
 /**
  * A simple airport loader which reads a file from disk and sends entries to the

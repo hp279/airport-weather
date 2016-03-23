@@ -1,16 +1,22 @@
 package com.crossover.trial.weather;
 
-import com.crossover.trial.weather.model.Airport;
-import com.crossover.trial.weather.model.AtmosphericInformation;
-import com.crossover.trial.weather.model.DataPointType;
-import com.google.gson.Gson;
+import static com.crossover.trial.weather.RestWeatherCollectorEndpoint.addAirport;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.ws.rs.Path;
 import javax.ws.rs.core.Response;
-import java.util.*;
-import java.util.logging.Logger;
 
-import static com.crossover.trial.weather.RestWeatherCollectorEndpoint.addAirport;
+import com.crossover.trial.weather.model.Airport;
+import com.crossover.trial.weather.model.AtmosphericInformation;
+import com.crossover.trial.weather.model.DataPointType;
+import com.crossover.trial.weather.utils.CoordinateHelper;
+import com.google.gson.Gson;
 
 /**
  * The Weather App REST endpoint allows clients to query, update and check
@@ -23,9 +29,6 @@ import static com.crossover.trial.weather.RestWeatherCollectorEndpoint.addAirpor
 public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
 
     public final static Logger LOGGER = Logger.getLogger("WeatherQuery");
-
-    /** earth radius in KM */
-    public static final double R = 6372.8;
 
     /** shared gson json to object factory */
     public static final Gson gson = new Gson();
@@ -123,7 +126,8 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
         } else {
             Airport ad = findAirportData(iata);
             for (int i = 0; i < airportData.size(); i++) {
-                if (calculateDistance(ad, airportData.get(i)) <= radius) {
+                if (CoordinateHelper.calculateDistance(ad.getCoordinate(),
+                        airportData.get(i).getCoordinate()) <= radius) {
                     AtmosphericInformation ai = atmosphericInformation.get(i);
                     if (ai.get(DataPointType.CLOUDCOVER) != null || ai.get(DataPointType.HUMIDTY) != null
                             || ai.get(DataPointType.PRECIPITATION) != null || ai.get(DataPointType.PRESSURE) != null
@@ -171,24 +175,6 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
     public static int getAirportDataIdx(String iataCode) {
         Airport ad = findAirportData(iataCode);
         return airportData.indexOf(ad);
-    }
-
-    /**
-     * Haversine distance between two airports.
-     *
-     * @param ad1
-     *            airport 1
-     * @param ad2
-     *            airport 2
-     * @return the distance in KM
-     */
-    public double calculateDistance(Airport ad1, Airport ad2) {
-        double deltaLat = Math.toRadians(ad2.getLatitude() - ad1.getLatitude());
-        double deltaLon = Math.toRadians(ad2.getLongitude() - ad1.getLongitude());
-        double a = Math.pow(Math.sin(deltaLat / 2), 2)
-                + Math.pow(Math.sin(deltaLon / 2), 2) * Math.cos(ad1.getLatitude()) * Math.cos(ad2.getLatitude());
-        double c = 2 * Math.asin(Math.sqrt(a));
-        return R * c;
     }
 
     /**

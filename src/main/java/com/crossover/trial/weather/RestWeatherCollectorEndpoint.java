@@ -1,20 +1,24 @@
 package com.crossover.trial.weather;
 
+import static com.crossover.trial.weather.RestWeatherQueryEndpoint.airportData;
+import static com.crossover.trial.weather.RestWeatherQueryEndpoint.atmosphericInformation;
+import static com.crossover.trial.weather.RestWeatherQueryEndpoint.findAirportData;
+import static com.crossover.trial.weather.RestWeatherQueryEndpoint.getAirportDataIdx;
+
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Logger;
+
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.core.Response;
+
 import com.crossover.trial.weather.exception.WeatherException;
 import com.crossover.trial.weather.model.Airport;
 import com.crossover.trial.weather.model.AtmosphericInformation;
 import com.crossover.trial.weather.model.DataPoint;
 import com.crossover.trial.weather.model.DataPointType;
 import com.google.gson.Gson;
-
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.core.Response;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.logging.Logger;
-
-import static com.crossover.trial.weather.RestWeatherQueryEndpoint.*;
 
 /**
  * A REST implementation of the WeatherCollector API. Accessible only to airport
