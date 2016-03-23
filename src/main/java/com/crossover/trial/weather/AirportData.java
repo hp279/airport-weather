@@ -19,7 +19,8 @@ public class AirportData {
     /** longitude value in degrees */
     double longitude;
 
-    public AirportData() { }
+    public AirportData() {
+    }
 
     public String getIata() {
         return iata;
@@ -51,7 +52,7 @@ public class AirportData {
 
     public boolean equals(Object other) {
         if (other instanceof AirportData) {
-            return ((AirportData)other).getIata().equals(this.getIata());
+            return ((AirportData) other).getIata().equals(this.getIata());
         }
 
         return false;

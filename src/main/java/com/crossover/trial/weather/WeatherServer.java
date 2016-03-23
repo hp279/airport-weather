@@ -1,5 +1,12 @@
 package com.crossover.trial.weather;
 
+import static java.lang.String.format;
+
+import java.io.IOException;
+import java.net.URI;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.glassfish.grizzly.Connection;
 import org.glassfish.grizzly.http.server.HttpServer;
 import org.glassfish.grizzly.http.server.HttpServerFilter;
@@ -8,17 +15,9 @@ import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import java.io.IOException;
-import java.net.URI;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static java.lang.String.*;
-
-
 /**
- * A main method used to test the Weather Application. You are free to modify this main method
- * as you wish - it's in not used by the grader.
+ * A main method used to test the Weather Application. You are free to modify
+ * this main method as you wish - it's in not used by the grader.
  *
  * @author code test administrator
  */
@@ -34,7 +33,8 @@ public class WeatherServer {
             final ResourceConfig resourceConfig = new ResourceConfig();
             resourceConfig.register(RestWeatherCollectorEndpoint.class);
             resourceConfig.register(RestWeatherQueryEndpoint.class);
-            final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URL), resourceConfig, false);
+            final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URL), resourceConfig,
+                    false);
 
             Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
                 @Override

@@ -23,7 +23,7 @@ public class WeatherEndpointTest {
     public void setUp() throws Exception {
         RestWeatherQueryEndpoint.init();
         _dp = new DataPoint.Builder()
-                .withCount(10).withFirst(10).withMedian(20).withLast(30).withMean(22).build();
+                .count(10).first(10.0).median(20.0).third(30.0).mean(22.0).build();
         _update.updateWeather("BOS", "wind", _gson.toJson(_dp));
         _query.weather("BOS", "0").getEntity();
     }
@@ -59,7 +59,7 @@ public class WeatherEndpointTest {
     public void testUpdate() throws Exception {
 
         DataPoint windDp = new DataPoint.Builder()
-                .withCount(10).withFirst(10).withMedian(20).withLast(30).withMean(22).build();
+                .count(10).first(10.0).median(20.0).third(30.0).mean(22.0).build();
         _update.updateWeather("BOS", "wind", _gson.toJson(windDp));
         _query.weather("BOS", "0").getEntity();
 
@@ -68,7 +68,7 @@ public class WeatherEndpointTest {
         assertEquals(1, pingResult.getAsJsonObject().get("datasize").getAsInt());
 
         DataPoint cloudCoverDp = new DataPoint.Builder()
-                .withCount(4).withFirst(10).withMedian(60).withLast(100).withMean(50).build();
+                .count(4).first(10.0).median(60.0).third(100.0).mean(50.0).build();
         _update.updateWeather("BOS", "cloudcover", _gson.toJson(cloudCoverDp));
 
         List<AtmosphericInformation> ais = (List<AtmosphericInformation>) _query.weather("BOS", "0").getEntity();

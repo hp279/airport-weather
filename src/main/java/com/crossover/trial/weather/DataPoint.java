@@ -4,7 +4,8 @@ import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
- * A collected point, including some information about the range of collected values
+ * A collected point, including some information about the range of collected
+ * values
  *
  * @author code test administrator
  */
@@ -12,60 +13,75 @@ public class DataPoint {
 
     public double mean = 0.0;
 
-    public int first = 0;
+    public double first = 0;
 
-    public int second = 0;
+    public double median = 0;
 
-    public int third = 0;
+    public double third = 0;
 
     public int count = 0;
 
-    /** private constructor, use the builder to create this object */
-    private DataPoint() { }
-
-    protected DataPoint(int first, int second, int mean, int third, int count) {
-        this.setFirst(first);
-        this.setMean(mean);
-        this.setSecond(second);
-        this.setThird(third);
-        this.setCount(count);
+    private DataPoint(Builder builder) {
+        this.setFirst(builder.first);
+        this.setMean(builder.mean);
+        this.setMedian(builder.median);
+        this.setThird(builder.third);
+        this.setCount(builder.count);
     }
 
-    /** the mean of the observations */
+    /**
+     * the mean of the observations The mean value of the array.
+     */
     public double getMean() {
         return mean;
     }
 
-    protected void setMean(double mean) { this.mean = mean; }
+    protected void setMean(double mean) {
+        this.mean = mean;
+    }
 
-    /** 1st quartile -- useful as a lower bound */
-    public int getFirst() {
+    /**
+     * 1st quartile -- useful as a lower bound The first quartile is the 25th
+     * percentile value in the array. That is, 25 percent of the array values
+     * are smaller than this value and 75 percent are greater.
+     */
+    public double getFirst() {
         return first;
     }
 
-    protected void setFirst(int first) {
+    protected void setFirst(double first) {
         this.first = first;
     }
 
-    /** 2nd quartile -- median value */
-    public int getSecond() {
-        return second;
+    /**
+     * 2nd quartile -- median value The median value of the array.
+     */
+    public double getMedian() {
+        return median;
     }
 
-    protected void setSecond(int second) {
-        this.second = second;
+    protected void setMedian(double median) {
+        this.median = median;
     }
 
-    /** 3rd quartile value -- less noisy upper value */
-    public int getThird() {
+    /**
+     * 3rd quartile value -- less noisy upper value The third quartile is the
+     * 75th percentile value in the array. This means that 75 percent of the
+     * array values are less than this value and 25 percent are greater.
+     */
+    public double getThird() {
         return third;
     }
 
-    protected void setThird(int third) {
+    protected void setThird(double third) {
         this.third = third;
     }
 
-    /** the total number of measurements */
+    /**
+     * the total number of measurements The number of elements that participated
+     * in the statistical calculations. For floating-point arrays, this does not
+     * include any NaN or infinity (INF) values.
+     */
     public int getCount() {
         return count;
     }
@@ -83,41 +99,42 @@ public class DataPoint {
     }
 
     static public class Builder {
-        int first;
-        int mean;
-        int median;
-        int last;
-        int count;
+        private double mean = 0.0;
+        private double first = 0;
+        private double median = 0;
+        private double third = 0;
+        private int count = 0;
 
-        public Builder() { }
+        public Builder() {
+        }
 
-        public Builder withFirst(int first) {
-            first= first;
+        public Builder first(double first) {
+            this.first = first;
             return this;
         }
 
-        public Builder withMean(int mean) {
-            mean = mean;
+        public Builder median(double median) {
+            this.median = median;
             return this;
         }
 
-        public Builder withMedian(int median) {
-            median = median;
+        public Builder mean(double mean) {
+            this.mean = mean;
             return this;
         }
 
-        public Builder withCount(int count) {
-            count = count;
+        public Builder third(double third) {
+            this.third = third;
             return this;
         }
 
-        public Builder withLast(int last) {
-            last = last;
+        public Builder count(int count) {
+            this.count = count;
             return this;
         }
 
         public DataPoint build() {
-            return new DataPoint(this.first, this.mean, this.median, this.last, this.count);
+            return new DataPoint(this);
         }
     }
 }

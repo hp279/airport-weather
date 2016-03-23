@@ -7,9 +7,9 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
 /**
- * A reference implementation for the weather client. Consumers of the REST API can look at WeatherClient
- * to understand API semantics. This existing client populates the REST endpoint with dummy data useful for
- * testing.
+ * A reference implementation for the weather client. Consumers of the REST API
+ * can look at WeatherClient to understand API semantics. This existing client
+ * populates the REST endpoint with dummy data useful for testing.
  *
  * @author code test administrator
  */
@@ -47,11 +47,9 @@ public class WeatherClient {
         System.out.println("query.ping: " + response.readEntity(String.class));
     }
 
-    public void populate(String pointType, int first, int last, int mean, int median, int count) {
+    public void populate(String pointType, double mean, double first, double median, double third, int count) {
         WebTarget path = collect.path("/weather/BOS/" + pointType);
-        DataPoint dp = new DataPoint.Builder()
-                .withFirst(first).withLast(last).withMean(mean).withMedian(median).withCount(count)
-                .build();
+        DataPoint dp = new DataPoint.Builder().mean(mean).first(first).median(median).third(third).count(count).build();
         Response post = path.request().post(Entity.entity(dp, "application/json"));
     }
 
@@ -66,7 +64,7 @@ public class WeatherClient {
     public static void main(String[] args) {
         WeatherClient wc = new WeatherClient();
         wc.pingCollect();
-        wc.populate("wind", 0, 10, 6, 4, 20);
+        wc.populate("wind", 4.0, 0.0, 4.0, 10.0, 10);
 
         wc.query("BOS");
         wc.query("JFK");
