@@ -12,7 +12,7 @@ import com.crossover.trial.weather.utils.CoordinateHelper;
  *
  * @author code test administrator
  */
-public class AirportData {
+public class Airport {
 
     /** the three letter IATA code */
     private final String iata;
@@ -23,7 +23,7 @@ public class AirportData {
     /** longitude value in degrees */
     private final double longitude;
 
-    public AirportData(String iata, double latitude, double longitude) {
+    public Airport(String iata, double latitude, double longitude) {
         this.iata = iata;
 
         if (CoordinateHelper.isValidLatitude(latitude)) {
@@ -69,7 +69,7 @@ public class AirportData {
         if (other.getClass() != getClass())
             return false;
 
-        AirportData e = (AirportData) other;
+        Airport e = (Airport) other;
 
         return new EqualsBuilder().append(getIata(), e.getIata()).isEquals();
     }

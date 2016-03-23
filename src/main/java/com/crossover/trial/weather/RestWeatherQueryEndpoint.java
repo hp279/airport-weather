@@ -1,6 +1,6 @@
 package com.crossover.trial.weather;
 
-import com.crossover.trial.weather.model.AirportData;
+import com.crossover.trial.weather.model.Airport;
 import com.google.gson.Gson;
 
 import javax.ws.rs.Path;
@@ -29,7 +29,7 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
     public static final Gson gson = new Gson();
 
     /** all known airports */
-    protected static List<AirportData> airportData = new ArrayList<>();
+    protected static List<Airport> airportData = new ArrayList<>();
 
     /**
      * atmospheric information for each airport, idx corresponds with
@@ -45,7 +45,7 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
      * using a REST request and aggregate with other performance metrics
      * {@link #ping()}
      */
-    public static Map<AirportData, Integer> requestFrequency = new HashMap<AirportData, Integer>();
+    public static Map<Airport, Integer> requestFrequency = new HashMap<Airport, Integer>();
 
     public static Map<Double, Integer> radiusFreq = new HashMap<Double, Integer>();
 
@@ -78,7 +78,7 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
 
         Map<String, Double> freq = new HashMap<>();
         // fraction of queries
-        for (AirportData data : airportData) {
+        for (Airport data : airportData) {
             double frac = (double) requestFrequency.getOrDefault(data, 0) / requestFrequency.size();
             freq.put(data.getIata(), frac);
         }
@@ -118,7 +118,7 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
             int idx = getAirportDataIdx(iata);
             retval.add(atmosphericInformation.get(idx));
         } else {
-            AirportData ad = findAirportData(iata);
+            Airport ad = findAirportData(iata);
             for (int i = 0; i < airportData.size(); i++) {
                 if (calculateDistance(ad, airportData.get(i)) <= radius) {
                     AtmosphericInformation ai = atmosphericInformation.get(i);
@@ -141,7 +141,7 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
      *            query radius
      */
     public void updateRequestFrequency(String iata, Double radius) {
-        AirportData airportData = findAirportData(iata);
+        Airport airportData = findAirportData(iata);
         requestFrequency.put(airportData, requestFrequency.getOrDefault(airportData, 0) + 1);
         radiusFreq.put(radius, radiusFreq.getOrDefault(radius, 0));
     }
@@ -153,7 +153,7 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
      *            as a string
      * @return airport data or null if not found
      */
-    public static AirportData findAirportData(String iataCode) {
+    public static Airport findAirportData(String iataCode) {
         return airportData.stream().filter(ap -> ap.getIata().equals(iataCode)).findFirst().orElse(null);
     }
 
@@ -165,7 +165,7 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
      * @return airport data or null if not found
      */
     public static int getAirportDataIdx(String iataCode) {
-        AirportData ad = findAirportData(iataCode);
+        Airport ad = findAirportData(iataCode);
         return airportData.indexOf(ad);
     }
 
@@ -178,7 +178,7 @@ public class RestWeatherQueryEndpoint implements WeatherQueryEndpoint {
      *            airport 2
      * @return the distance in KM
      */
-    public double calculateDistance(AirportData ad1, AirportData ad2) {
+    public double calculateDistance(Airport ad1, Airport ad2) {
         double deltaLat = Math.toRadians(ad2.getLatitude() - ad1.getLatitude());
         double deltaLon = Math.toRadians(ad2.getLongitude() - ad1.getLongitude());
         double a = Math.pow(Math.sin(deltaLat / 2), 2)

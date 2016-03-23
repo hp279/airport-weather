@@ -1,7 +1,7 @@
 package com.crossover.trial.weather;
 
 import com.crossover.trial.weather.exception.WeatherException;
-import com.crossover.trial.weather.model.AirportData;
+import com.crossover.trial.weather.model.Airport;
 import com.crossover.trial.weather.model.DataPoint;
 import com.crossover.trial.weather.model.DataPointType;
 import com.google.gson.Gson;
@@ -48,7 +48,7 @@ public class RestWeatherCollectorEndpoint implements WeatherCollectorEndpoint {
     @Override
     public Response getAirports() {
         Set<String> retval = new HashSet<>();
-        for (AirportData ad : airportData) {
+        for (Airport ad : airportData) {
             retval.add(ad.getIata());
         }
         return Response.status(Response.Status.OK).entity(retval).build();
@@ -56,7 +56,7 @@ public class RestWeatherCollectorEndpoint implements WeatherCollectorEndpoint {
 
     @Override
     public Response getAirport(@PathParam("iata") String iata) {
-        AirportData ad = findAirportData(iata);
+        Airport ad = findAirportData(iata);
         return Response.status(Response.Status.OK).entity(ad).build();
     }
 
@@ -178,8 +178,8 @@ public class RestWeatherCollectorEndpoint implements WeatherCollectorEndpoint {
      *
      * @return the added airport
      */
-    public static AirportData addAirport(String iataCode, double latitude, double longitude) {
-        AirportData ad = new AirportData(iataCode, latitude, longitude);
+    public static Airport addAirport(String iataCode, double latitude, double longitude) {
+        Airport ad = new Airport(iataCode, latitude, longitude);
         airportData.add(ad);
 
         AtmosphericInformation ai = new AtmosphericInformation();
