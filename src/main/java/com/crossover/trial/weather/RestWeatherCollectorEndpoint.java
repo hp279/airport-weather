@@ -1,5 +1,9 @@
 package com.crossover.trial.weather;
 
+import com.crossover.trial.weather.exception.WeatherException;
+import com.crossover.trial.weather.model.AirportData;
+import com.crossover.trial.weather.model.DataPoint;
+import com.crossover.trial.weather.model.DataPointType;
 import com.google.gson.Gson;
 
 import javax.ws.rs.Path;
@@ -175,14 +179,11 @@ public class RestWeatherCollectorEndpoint implements WeatherCollectorEndpoint {
      * @return the added airport
      */
     public static AirportData addAirport(String iataCode, double latitude, double longitude) {
-        AirportData ad = new AirportData();
+        AirportData ad = new AirportData(iataCode, latitude, longitude);
         airportData.add(ad);
 
         AtmosphericInformation ai = new AtmosphericInformation();
         atmosphericInformation.add(ai);
-        ad.setIata(iataCode);
-        ad.setLatitude(latitude);
-        ad.setLatitude(longitude);
         return ad;
     }
 }

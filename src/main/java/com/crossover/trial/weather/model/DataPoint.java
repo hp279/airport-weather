@@ -1,4 +1,4 @@
-package com.crossover.trial.weather;
+package com.crossover.trial.weather.model;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -36,7 +36,7 @@ public class DataPoint {
         return mean;
     }
 
-    protected void setMean(double mean) {
+    public void setMean(double mean) {
         this.mean = mean;
     }
 
@@ -49,7 +49,7 @@ public class DataPoint {
         return first;
     }
 
-    protected void setFirst(double first) {
+    public void setFirst(double first) {
         this.first = first;
     }
 
@@ -60,7 +60,7 @@ public class DataPoint {
         return median;
     }
 
-    protected void setMedian(double median) {
+    public void setMedian(double median) {
         this.median = median;
     }
 
@@ -73,7 +73,7 @@ public class DataPoint {
         return third;
     }
 
-    protected void setThird(double third) {
+    public void setThird(double third) {
         this.third = third;
     }
 
@@ -86,7 +86,7 @@ public class DataPoint {
         return count;
     }
 
-    protected void setCount(int count) {
+    public void setCount(int count) {
         this.count = count;
     }
 

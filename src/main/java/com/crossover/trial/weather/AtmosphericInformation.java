@@ -1,5 +1,7 @@
 package com.crossover.trial.weather;
 
+import com.crossover.trial.weather.model.DataPoint;
+
 /**
  * encapsulates sensor information for a particular location
  */

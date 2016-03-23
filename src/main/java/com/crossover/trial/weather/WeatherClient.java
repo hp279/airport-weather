@@ -6,6 +6,8 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
 
+import com.crossover.trial.weather.model.DataPoint;
+
 /**
  * A reference implementation for the weather client. Consumers of the REST API
  * can look at WeatherClient to understand API semantics. This existing client
