@@ -3,6 +3,8 @@ package com.crossover.trial.weather.model;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import com.crossover.trial.weather.exception.WeatherException;
+
 /**
  * encapsulates sensor information for a particular location
  */
@@ -17,8 +19,9 @@ public class AtmosphericInformation {
         lastUpdateTime = System.currentTimeMillis();
     }
 
-    public DataPoint update(DataPointType key, DataPoint value) {
+    public DataPoint update(DataPointType key, DataPoint value) throws WeatherException {
         lastUpdateTime = System.currentTimeMillis();
+        key.validate(value);
         return data.put(key, value);
     }
 
@@ -29,4 +32,5 @@ public class AtmosphericInformation {
     public long getLastUpdateTime() {
         return this.lastUpdateTime;
     }
+    
 }

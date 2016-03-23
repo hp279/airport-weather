@@ -119,50 +119,8 @@ public class RestWeatherCollectorEndpoint implements WeatherCollectorEndpoint {
     public void updateAtmosphericInformation(AtmosphericInformation ai, String pointType, DataPoint dp)
             throws WeatherException {
         final DataPointType dptype = DataPointType.valueOf(pointType.toUpperCase());
-
-        if (pointType.equalsIgnoreCase(DataPointType.WIND.name())) {
-            if (dp.getMean() >= 0) {
-                ai.update(DataPointType.WIND, dp);
-                return;
-            }
-        }
-
-        if (pointType.equalsIgnoreCase(DataPointType.TEMPERATURE.name())) {
-            if (dp.getMean() >= -50 && dp.getMean() < 100) {
-                ai.update(DataPointType.TEMPERATURE, dp);
-                return;
-            }
-        }
-
-        if (pointType.equalsIgnoreCase(DataPointType.HUMIDTY.name())) {
-            if (dp.getMean() >= 0 && dp.getMean() < 100) {
-                ai.update(DataPointType.HUMIDTY, dp);
-                return;
-            }
-        }
-
-        if (pointType.equalsIgnoreCase(DataPointType.PRESSURE.name())) {
-            if (dp.getMean() >= 650 && dp.getMean() < 800) {
-                ai.update(DataPointType.PRESSURE, dp);
-                return;
-            }
-        }
-
-        if (pointType.equalsIgnoreCase(DataPointType.CLOUDCOVER.name())) {
-            if (dp.getMean() >= 0 && dp.getMean() < 100) {
-                ai.update(DataPointType.CLOUDCOVER, dp);
-                return;
-            }
-        }
-
-        if (pointType.equalsIgnoreCase(DataPointType.PRECIPITATION.name())) {
-            if (dp.getMean() >= 0 && dp.getMean() < 100) {
-                ai.update(DataPointType.PRECIPITATION, dp);
-                return;
-            }
-        }
-
-        throw new IllegalStateException("couldn't update atmospheric data");
+        ai.update(dptype, dp);
+        //throw new IllegalStateException("couldn't update atmospheric data");
     }
 
     /**
