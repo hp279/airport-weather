@@ -6,6 +6,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
+import com.crossover.trial.weather.endpoints.WeatherCollector;
+import com.crossover.trial.weather.endpoints.WeatherQuery;
+
 import javax.ws.rs.core.Response;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
@@ -32,9 +35,9 @@ public class DoNotChangeTest {
     /** required version number */
     private static final String POM_VERSION = "1.1.0";
 
-    private WeatherCollectorEndpoint collector;
+    private WeatherCollector collector;
 
-    private WeatherQueryEndpoint queryEndpoint;
+    private WeatherQuery queryEndpoint;
 
     /**
      * The compile time interface validator for WeatherCollector. This method will NEVER been called, 

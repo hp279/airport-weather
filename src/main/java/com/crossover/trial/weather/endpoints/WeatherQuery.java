@@ -1,4 +1,4 @@
-package com.crossover.trial.weather;
+package com.crossover.trial.weather.endpoints;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -15,7 +15,7 @@ import com.crossover.trial.weather.model.AtmosphericInformation;
  *
  * @author code test adminsitrator
  */
-public interface WeatherQueryEndpoint {
+public interface WeatherQuery {
 
     /**
      * Retrieve health and status information for the the query api. Returns

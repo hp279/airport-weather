@@ -1,4 +1,4 @@
-package com.crossover.trial.weather;
+package com.crossover.trial.weather.endpoints;
 
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -9,7 +9,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import com.crossover.trial.weather.model.Airport;
+import com.crossover.trial.weather.model.AirportOld;
 import com.crossover.trial.weather.model.DataPointType;
 
 /**
@@ -17,7 +17,7 @@ import com.crossover.trial.weather.model.DataPointType;
  *
  * @author code test administartor
  */
-public interface WeatherCollectorEndpoint {
+public interface WeatherCollector {
 
     /**
      * A liveliness check for the collection endpoint.
@@ -44,7 +44,9 @@ public interface WeatherCollectorEndpoint {
      */
     @POST
     @Path("/weather/{iata}/{pointType}")
-    Response updateWeather(@PathParam("iata") String iataCode, @PathParam("pointType") String pointType,
+    Response updateWeather(
+            @PathParam("iata") String iataCode, 
+            @PathParam("pointType") String pointType,
             String datapointJson);
 
     /**
@@ -63,7 +65,7 @@ public interface WeatherCollectorEndpoint {
      *
      * @param iata
      *            the 3 letter airport code
-     * @return an HTTP Response with a json representation of {@link Airport}
+     * @return an HTTP Response with a json representation of {@link AirportOld}
      */
     @GET
     @Path("/airport/{iata}")
@@ -83,7 +85,9 @@ public interface WeatherCollectorEndpoint {
      */
     @POST
     @Path("/airport/{iata}/{lat}/{long}")
-    Response addAirport(@PathParam("iata") String iata, @PathParam("lat") String latString,
+    Response addAirport(
+            @PathParam("iata") String iata, 
+            @PathParam("lat") String latString,
             @PathParam("long") String longString);
 
     /**

@@ -15,6 +15,9 @@ import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
+import com.crossover.trial.weather.endpoints.RestWeatherCollectorEndpoint;
+import com.crossover.trial.weather.endpoints.RestWeatherQueryEndpoint;
+
 /**
  * A main method used to test the Weather Application. You are free to modify
  * this main method as you wish - it's in not used by the grader.

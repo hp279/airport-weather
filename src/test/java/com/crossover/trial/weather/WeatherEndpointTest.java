@@ -1,8 +1,13 @@
 package com.crossover.trial.weather;
 
+import com.crossover.trial.weather.endpoints.RestWeatherCollectorEndpoint;
+import com.crossover.trial.weather.endpoints.RestWeatherQueryEndpoint;
+import com.crossover.trial.weather.endpoints.WeatherCollector;
+import com.crossover.trial.weather.endpoints.WeatherQuery;
 import com.crossover.trial.weather.model.AtmosphericInformation;
 import com.crossover.trial.weather.model.DataPoint;
 import com.crossover.trial.weather.model.DataPointType;
+import com.crossover.trial.weather.service.AirportWeatherService;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -15,18 +20,26 @@ import static org.junit.Assert.assertEquals;
 
 public class WeatherEndpointTest {
 
-    private WeatherQueryEndpoint _query = new RestWeatherQueryEndpoint();
+    private WeatherQuery _query = new RestWeatherQueryEndpoint();
 
-    private WeatherCollectorEndpoint _update = new RestWeatherCollectorEndpoint();
+    private WeatherCollector _update = new RestWeatherCollectorEndpoint();
 
     private Gson _gson = new Gson();
 
     private DataPoint _dp;
+
     @Before
     public void setUp() throws Exception {
-        RestWeatherQueryEndpoint.init();
-        _dp = new DataPoint.Builder()
-                .count(10).first(10.0).median(20.0).third(30.0).mean(22.0).build();
+        AirportWeatherService.INSTANCE.getAirportData().clear();
+        AirportWeatherService.INSTANCE.getRequestFrequency().clear();
+
+        AirportWeatherService.INSTANCE.addAirport("BOS", 42.364347, -71.005181);
+        AirportWeatherService.INSTANCE.addAirport("EWR", 40.6925, -74.168667);
+        AirportWeatherService.INSTANCE.addAirport("JFK", 40.639751, -73.778925);
+        AirportWeatherService.INSTANCE.addAirport("LGA", 40.777245, -73.872608);
+        AirportWeatherService.INSTANCE.addAirport("MMU", 40.79935, -74.4148747);
+
+        _dp = new DataPoint.Builder().count(10).first(10.0).median(20.0).third(30.0).mean(22.0).build();
         _update.updateWeather("BOS", "wind", _gson.toJson(_dp));
         _query.weather("BOS", "0").getEntity();
     }
@@ -61,8 +74,7 @@ public class WeatherEndpointTest {
     @Test
     public void testUpdate() throws Exception {
 
-        DataPoint windDp = new DataPoint.Builder()
-                .count(10).first(10.0).median(20.0).third(30.0).mean(22.0).build();
+        DataPoint windDp = new DataPoint.Builder().count(10).first(10.0).median(20.0).third(30.0).mean(22.0).build();
         _update.updateWeather("BOS", "wind", _gson.toJson(windDp));
         _query.weather("BOS", "0").getEntity();
 
@@ -70,8 +82,8 @@ public class WeatherEndpointTest {
         JsonElement pingResult = new JsonParser().parse(ping);
         assertEquals(1, pingResult.getAsJsonObject().get("datasize").getAsInt());
 
-        DataPoint cloudCoverDp = new DataPoint.Builder()
-                .count(4).first(10.0).median(60.0).third(100.0).mean(50.0).build();
+        DataPoint cloudCoverDp = new DataPoint.Builder().count(4).first(10.0).median(60.0).third(100.0).mean(50.0)
+                .build();
         _update.updateWeather("BOS", "cloudcover", _gson.toJson(cloudCoverDp));
 
         List<AtmosphericInformation> ais = (List<AtmosphericInformation>) _query.weather("BOS", "0").getEntity();
