@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,15 +26,11 @@ public class AirportLoader {
 
     private static final String BASE_URI = "http://localhost:9090";
 
-    /** end point for read queries */
-    private WebTarget queryWebTarget;
-
     /** end point to supply updates */
     private WebTarget collectWebTarget;
 
     public AirportLoader() {
         Client client = ClientBuilder.newClient();
-        queryWebTarget = client.target(BASE_URI).path("query");
         collectWebTarget = client.target(BASE_URI).path("collect");
     }
 
@@ -54,8 +48,6 @@ public class AirportLoader {
     }
 
     public static void main(String args[]) throws Exception {
-        // Stream<String> stream = Files
-        // .lines(Paths.get(args[0]));
         BufferedReader br = null;
         try {
             URL url = AirportLoader.class

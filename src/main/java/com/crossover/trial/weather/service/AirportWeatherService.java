@@ -1,6 +1,5 @@
 package com.crossover.trial.weather.service;
 
-import java.io.ObjectInputStream.GetField;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
