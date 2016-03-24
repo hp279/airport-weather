@@ -1,4 +1,4 @@
-package com.crossover.trial.weather.endpoints;
+package com.crossover.trial.weather;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,8 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.crossover.trial.weather.model.Airport;
@@ -25,8 +28,8 @@ import com.google.gson.Gson;
  * @author code test administrator
  */
 @Path("/query")
-public class RestWeatherQueryEndpoint implements WeatherQuery {
-    public final static Logger LOGGER = Logger.getLogger(RestWeatherCollectorEndpoint.class.getName());
+public class WeatherQueryEndpointImpl implements WeatherQueryEndpoint {
+    public final static Logger LOGGER = Logger.getLogger(WeatherCollectorEndpointImpl.class.getName());
 
     private AirportWeatherService awService = AirportWeatherService.INSTANCE;
 
@@ -40,6 +43,8 @@ public class RestWeatherQueryEndpoint implements WeatherQuery {
      * @return health stats for the service as a string
      */
     @Override
+    @Path("/ping")
+    @Produces(MediaType.APPLICATION_JSON)
     public String ping() {
         Map<String, Object> retval = new HashMap<>();
 
@@ -91,7 +96,15 @@ public class RestWeatherQueryEndpoint implements WeatherQuery {
      * @return a list of atmospheric information
      */
     @Override
+    @GET
+    @Path("/weather/{iata}/{radius}")
+    @Produces(MediaType.APPLICATION_JSON)
     public Response weather(@PathParam("iata") String iata, @PathParam("radius") String radiusString) {
+
+        Airport airport = awService.findAirport(iata);
+        if (airport == null) {
+            return Response.status(422).build();
+        }
 
         double radius = radiusString == null || radiusString.trim().isEmpty() ? 0 : Double.valueOf(radiusString);
         awService.updateRequestFrequency(iata, radius);
@@ -99,9 +112,8 @@ public class RestWeatherQueryEndpoint implements WeatherQuery {
         List<AtmosphericInformation> retval = new ArrayList<>();
         if (radius == 0) {
             retval.add(awService.getAtmosphericInformation(iata));
-        } else {
-            Airport airport = awService.findAirport(iata);
 
+        } else {
             for (Airport airport2 : awService.getAirports()) {
                 if (CoordinateHelper.calculateDistance(airport.getCoordinate(), airport2.getCoordinate()) <= radius) {
 
@@ -112,6 +124,7 @@ public class RestWeatherQueryEndpoint implements WeatherQuery {
                             || ai.get(DataPointType.TEMPERATURE) != null || ai.get(DataPointType.WIND) != null) {
                         retval.add(ai);
                     }
+                    //retval.add(ai);
                 }
             }
 

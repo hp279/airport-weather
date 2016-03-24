@@ -1,9 +1,5 @@
 package com.crossover.trial.weather;
 
-import com.crossover.trial.weather.endpoints.RestWeatherCollectorEndpoint;
-import com.crossover.trial.weather.endpoints.RestWeatherQueryEndpoint;
-import com.crossover.trial.weather.endpoints.WeatherCollector;
-import com.crossover.trial.weather.endpoints.WeatherQuery;
 import com.crossover.trial.weather.model.AtmosphericInformation;
 import com.crossover.trial.weather.model.DataPoint;
 import com.crossover.trial.weather.model.DataPointType;
@@ -20,9 +16,9 @@ import static org.junit.Assert.assertEquals;
 
 public class WeatherEndpointTest {
 
-    private WeatherQuery _query = new RestWeatherQueryEndpoint();
+    private WeatherQueryEndpoint _query = new WeatherQueryEndpointImpl();
 
-    private WeatherCollector _update = new RestWeatherCollectorEndpoint();
+    private WeatherCollectorEndpoint _update = new WeatherCollectorEndpointImpl();
 
     private Gson _gson = new Gson();
 

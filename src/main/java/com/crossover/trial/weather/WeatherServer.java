@@ -15,9 +15,6 @@ import org.glassfish.grizzly.http.server.Request;
 import org.glassfish.jersey.grizzly2.httpserver.GrizzlyHttpServerFactory;
 import org.glassfish.jersey.server.ResourceConfig;
 
-import com.crossover.trial.weather.endpoints.RestWeatherCollectorEndpoint;
-import com.crossover.trial.weather.endpoints.RestWeatherQueryEndpoint;
-
 /**
  * A main method used to test the Weather Application. You are free to modify
  * this main method as you wish - it's in not used by the grader.
@@ -34,8 +31,8 @@ public class WeatherServer {
             System.out.println("Not for production use");
 
             final ResourceConfig resourceConfig = new ResourceConfig();
-            resourceConfig.register(RestWeatherCollectorEndpoint.class);
-            resourceConfig.register(RestWeatherQueryEndpoint.class);
+            resourceConfig.register(WeatherCollectorEndpointImpl.class);
+            resourceConfig.register(WeatherQueryEndpointImpl.class);
             final HttpServer server = GrizzlyHttpServerFactory.createHttpServer(URI.create(BASE_URL), resourceConfig,
                     false);
 

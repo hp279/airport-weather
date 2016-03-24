@@ -1,12 +1,6 @@
-package com.crossover.trial.weather.endpoints;
+package com.crossover.trial.weather;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import com.crossover.trial.weather.model.AirportOld;
@@ -17,15 +11,13 @@ import com.crossover.trial.weather.model.DataPointType;
  *
  * @author code test administartor
  */
-public interface WeatherCollector {
+public interface WeatherCollectorEndpoint {
 
     /**
      * A liveliness check for the collection endpoint.
      *
      * @return 1 if the endpoint is alive functioning, 0 otherwise
      */
-    @GET
-    @Path("/ping")
     Response ping();
 
     /**
@@ -42,8 +34,6 @@ public interface WeatherCollector {
      *
      * @return HTTP Response code
      */
-    @POST
-    @Path("/weather/{iata}/{pointType}")
     Response updateWeather(
             @PathParam("iata") String iataCode, 
             @PathParam("pointType") String pointType,
@@ -54,9 +44,6 @@ public interface WeatherCollector {
      *
      * @return HTTP Response code and a json formatted list of IATA codes
      */
-    @GET
-    @Path("/airports")
-    @Produces(MediaType.APPLICATION_JSON)
     Response getAirports();
 
     /**
@@ -67,9 +54,6 @@ public interface WeatherCollector {
      *            the 3 letter airport code
      * @return an HTTP Response with a json representation of {@link AirportOld}
      */
-    @GET
-    @Path("/airport/{iata}")
-    @Produces(MediaType.APPLICATION_JSON)
     Response getAirport(@PathParam("iata") String iata);
 
     /**
@@ -83,8 +67,6 @@ public interface WeatherCollector {
      *            the airport's longitude in degrees as a string [-180, 180]
      * @return HTTP Response code for the add operation
      */
-    @POST
-    @Path("/airport/{iata}/{lat}/{long}")
     Response addAirport(
             @PathParam("iata") String iata, 
             @PathParam("lat") String latString,
@@ -97,11 +79,5 @@ public interface WeatherCollector {
      *            the 3 letter airport code
      * @return HTTP Repsonse code for the delete operation
      */
-    @DELETE
-    @Path("/airport/{iata}")
     Response deleteAirport(@PathParam("iata") String iata);
-
-    @GET
-    @Path("/exit")
-    Response exit();
 }
